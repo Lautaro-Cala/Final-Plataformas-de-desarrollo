@@ -1,0 +1,120 @@
+.about-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.about-header {
+  background-color: #007BFF;
+  color: #fff;
+  padding: 10px 0;
+  border-radius: 8px 8px 0 0;
+}
+
+.about-header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.about-content {
+  padding: 20px;
+  line-height: 1.6;
+}
+
+.about-description {
+  margin-bottom: 30px;
+}
+
+.about-contact,
+.about-location,
+.about-hours,
+.about-social {
+  margin-bottom: 20px;
+}
+
+.contact-info, .location-info, .hours-info, .social-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-icon, .location-icon, .hours-icon, .social-icon {
+  font-size: 24px;
+  color: #007BFF;
+}
+
+.social-icons .social-icon {
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.social-icons .social-icon:hover {
+  color: #5753c9;
+}
+
+.about-footer {
+  font-weight: bold;
+  color: #007BFF;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    padding: 15px;
+    margin: 20px auto;
+  }
+
+  .about-header h1 {
+    font-size: 20px;
+  }
+
+  .contact-info, .location-info, .hours-info, .social-icons {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .contact-icon, .location-icon, .hours-icon, .social-icon {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-container {
+    margin: 20px auto;
+		padding: 15px;
+    max-width: 88%;
+  }
+
+  .about-header h1 {
+    font-size: 18px;
+  }
+
+  .about-content {
+    padding: 10px;
+  }
+
+  .contact-info, .location-info, .hours-info, .social-icons {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .contact-icon, .location-icon, .hours-icon, .social-icon {
+    font-size: 18px;
+  }
+
+  .about-description {
+    margin-bottom: 20px;
+  }
+}
