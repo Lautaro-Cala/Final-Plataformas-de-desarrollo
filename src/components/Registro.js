@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
-import app from './firebaseConfig'; // Archivo de configuración de Firebase
+import app from './firebaseConfig'; 
+import "../Login.css";
 
 function Registro() {
   const [email, setEmail] = useState('');
@@ -33,11 +34,11 @@ function Registro() {
       await setDoc(doc(db, 'usuarios', user.uid), {
         nombre,
         email,
-        rol: 'usuario', // Puedes cambiar el rol predeterminado
+        rol: 'usuario', 
       });
 
       console.log('Registro exitoso y datos guardados en Firestore');
-      navigate('/'); // Redirigir al inicio
+      navigate('/'); 
     } catch (error) {
       console.error('Error al registrar:', error.message);
       setError('Error al registrar usuario: ' + error.message);
@@ -45,8 +46,10 @@ function Registro() {
   };
 
   return (
-    <div>
-      <h1>Registro</h1>
+    <div className="registro-container">
+        <div className="registro-header">
+          <h1>Registro</h1>
+        </div>
       <form onSubmit={handleRegistro}>
         <input
           type="text"

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; 
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import app from './firebaseConfig'; // Archivo de configuración de Firebase
+import app from './firebaseConfig'; 
+import "../Login.css";
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -24,7 +25,7 @@ function Login() {
       const userDoc = await getDoc(doc(db, 'usuarios', user.uid));
       if (userDoc.exists()) {
         console.log('Datos del usuario:', userDoc.data());
-        navigate('/'); // Redirigir al inicio
+        navigate('/'); 
       } else {
         console.error('No se encontraron datos adicionales del usuario en Firestore.');
       }
@@ -35,8 +36,10 @@ function Login() {
   };
 
   return (
-    <div>
-      <h1>Iniciar Sesión</h1>
+    <div className="registro-container">
+      <div className="registro-header">
+        <h1>Login</h1>
+      </div>
       <form onSubmit={handleLogin}>
         <input
           type="email"
@@ -53,6 +56,9 @@ function Login() {
         <button type="submit">Ingresar</button>
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div className="registro-link">
+        <p>¿No tienes una cuenta? <Link to="/Registro">Regístrate aquí</Link></p>
+      </div>
     </div>
   );
 }

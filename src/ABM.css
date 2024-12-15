@@ -1,0 +1,80 @@
+.abm-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+ 
+  .abm-container h1 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .abm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  
+  .abm-table th,
+  .abm-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  
+  .abm-table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .abm-table td {
+    background-color: #fff;
+  }
+  
+  .abm-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .abm-table tr:hover {
+    background-color: #eaeaea;
+  }
+  
+  .abm-select {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .abm-button {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #dc3545;
+    transition: background-color 0.3s ease;
+  }
+  
+  .abm-button:hover {
+    background-color: #c82333;
+  }
+  
+  .abm-message {
+    text-align: center;
+    font-size: 16px;
+    color: green;
+    margin-top: 10px;
+  }
+  
