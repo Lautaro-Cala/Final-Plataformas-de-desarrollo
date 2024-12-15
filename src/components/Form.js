@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../style.css';
+import { getFirestore, doc, collection, setDoc, addDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import app from './firebaseConfig';
 
 
 function Form() {
@@ -30,10 +33,34 @@ function Form() {
     navigate('/');
   };
 
-  const agregarLista = (nombre, dia, productos) => {
-    const listas = JSON.parse(localStorage.getItem('listas')) || [];
-    listas.push({ nombre, dia, productos, completado: false });
-    localStorage.setItem('listas', JSON.stringify(listas));
+  // Función actualizada para guardar en Firestore
+  const agregarLista = async (nombre, dia, productos) => {
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    try {
+      // Obtener el ID del usuario autenticado
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error('Usuario no autenticado');
+      }
+
+      // Referencia a la subcolección de listas del usuario
+      const listaRef = collection(db, 'usuarios', user.uid, 'listas');
+      
+      // Crear un nuevo documento en la subcolección 'listas'
+      await addDoc(listaRef, {
+        nombre,
+        dia,
+        productos,
+        completado: false,
+        creadoEn: new Date(),
+      });
+
+      console.log('Lista guardada correctamente en Firestore');
+    } catch (error) {
+      console.error('Error al guardar la lista en Firestore:', error);
+    }
   };
 
   return (

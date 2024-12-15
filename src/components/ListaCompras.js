@@ -1,30 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
+import { getFirestore, collection, query, where, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import '../style.css';
 
 function ListaCompras() {
   const [listas, setListas] = useState([]);
   const navigate = useNavigate();
+  const auth = getAuth();
+  const db = getFirestore();
 
   useEffect(() => {
-    const listasGuardadas = JSON.parse(localStorage.getItem('listas')) || [];
-    setListas(listasGuardadas);
-  }, []);
+    const obtenerListas = async () => {
+      const usuario = auth.currentUser;
+      if (usuario) {
+        const listasRef = collection(db, 'usuarios', usuario.uid, 'listas');
+        const q = query(listasRef);
+        const querySnapshot = await getDocs(q);
+        
+        const listasData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setListas(listasData);
+      } else {
+        // Si no hay usuario autenticado, redirigir a login
+        navigate('/login');
+      }
+    };
 
-  const eliminarLista = (index) => {
-    const nuevasListas = listas.filter((_, i) => i !== index);
-    setListas(nuevasListas);
-    localStorage.setItem('listas', JSON.stringify(nuevasListas));
+    obtenerListas();
+  }, [auth, db, navigate]);
+
+  const eliminarLista = async (id) => {
+    const usuario = auth.currentUser;
+    if (usuario) {
+      try {
+        const listaRef = doc(db, 'usuarios', usuario.uid, 'listas', id);
+        await deleteDoc(listaRef);
+        setListas(listas.filter((lista) => lista.id !== id)); 
+      } catch (error) {
+        console.error('Error al eliminar la lista:', error);
+      }
+    }
   };
 
   return (
-    <div>
-      {/* <header>
-        <h1>EasyList</h1>
-      </header> */}
     <div id="lista-compras">
       <main>
-        {listas.map((lista, index) => {
+        {listas.map((lista) => {
           const totalProductos = lista.productos.length;
           const completados = lista.productos.filter((p) => p.completado).length;
           const porcentaje = (completados / totalProductos) * 100;
@@ -32,8 +53,8 @@ function ListaCompras() {
           return (
             <div 
               className="card" 
-              key={index} 
-              onClick={() => navigate(`/productos?listaIndex=${index}`)} 
+              key={lista.id} 
+              onClick={() => navigate(`/productos?listaId=${lista.id}`)} 
             >
               <div className="card-content">
                 <h3>
@@ -54,7 +75,7 @@ function ListaCompras() {
                   className="eliminarLista" 
                   onClick={(e) => {
                     e.stopPropagation(); 
-                    eliminarLista(index);
+                    eliminarLista(lista.id);
                   }}
                 >
                   Eliminar
@@ -68,8 +89,6 @@ function ListaCompras() {
       <button onClick={() => navigate('/Form')} className="agregar-lista-btn">
         Agregar Lista
       </button>
-    </div>
-    
     </div>
   );
 }

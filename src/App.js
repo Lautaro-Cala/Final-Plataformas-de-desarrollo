@@ -134,6 +134,7 @@ function Logout({ setUser, setUserName, setUserRole }) {
       setUserName('');
       setUserRole('');
       navigate('/'); 
+      window.location.reload();
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
     }
