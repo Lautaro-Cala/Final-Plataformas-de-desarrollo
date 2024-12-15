@@ -29,9 +29,9 @@ function Login() {
       } else {
         console.error('No se encontraron datos adicionales del usuario en Firestore.');
       }
-    } catch (error) {
-      console.error('Error al iniciar sesión:', error.message);
-      setError('Error al iniciar sesión: ' + error.message);
+    } catch{
+      console.error('Error al iniciar sesión, contraseña o mail incorrectos');
+      setError('Error al iniciar sesión, contraseña o mail incorrectos');
     }
   };
 
@@ -41,18 +41,26 @@ function Login() {
         <h1>Login</h1>
       </div>
       <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Correo Electrónico"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="input-group">
+          <label htmlFor="email">Correo Electrónico</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Correo Electrónico"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="password">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
         <button type="submit">Ingresar</button>
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}

@@ -39,9 +39,9 @@ function Registro() {
 
       console.log('Registro exitoso y datos guardados en Firestore');
       navigate('/'); 
-    } catch (error) {
-      console.error('Error al registrar:', error.message);
-      setError('Error al registrar usuario: ' + error.message);
+    } catch{
+      console.error('Error al registrar, el usuario ya existe');
+      setError('Error al registrar usuario, el usuario ya existe');
     }
   };
 
@@ -51,24 +51,36 @@ function Registro() {
           <h1>Registro</h1>
         </div>
       <form onSubmit={handleRegistro}>
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Correo Electrónico"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="input-group">
+          <label htmlFor="nombre">Nombre</label>
+          <input
+            type="text"
+            id="nombre"
+            placeholder="Nombre"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="email">Correo Electrónico</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Correo Electrónico"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="password">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
         <button type="submit">Registrarse</button>
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
