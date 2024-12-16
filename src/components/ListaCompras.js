@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, query, where, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import '../style.css';
+import Swal from 'sweetalert2';
 
 function ListaCompras() {
   const [listas, setListas] = useState([]);
@@ -21,7 +22,6 @@ function ListaCompras() {
         const listasData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setListas(listasData);
       } else {
-        // Si no hay usuario autenticado, redirigir a login
         navigate('/login');
       }
     };
@@ -32,12 +32,25 @@ function ListaCompras() {
   const eliminarLista = async (id) => {
     const usuario = auth.currentUser;
     if (usuario) {
-      try {
-        const listaRef = doc(db, 'usuarios', usuario.uid, 'listas', id);
-        await deleteDoc(listaRef);
-        setListas(listas.filter((lista) => lista.id !== id)); 
-      } catch (error) {
-        console.error('Error al eliminar la lista:', error);
+      const resultado = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+      });
+  
+      if (resultado.isConfirmed) {
+        try {
+          const listaRef = doc(db, 'usuarios', usuario.uid, 'listas', id);
+          await deleteDoc(listaRef);
+          setListas(listas.filter((lista) => lista.id !== id));
+          Swal.fire('Eliminada', 'La lista ha sido eliminada.', 'success');
+        } catch (error) {
+          console.error('Error al eliminar la lista:', error);
+          Swal.fire('Error', 'No se pudo eliminar la lista.', 'error');
+        }
       }
     }
   };
